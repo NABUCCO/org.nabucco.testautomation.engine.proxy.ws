@@ -76,6 +76,7 @@ public class WebServiceProxyEngineImpl extends AbstractProxyEngine {
 		logger.info("Starting WebServiceProxyEngine ...");
 		this.webServiceEngine = new WebServiceSubEngineImpl();
 		// No action so far
+		logger.info("WebServiceSubEngine created");
 		return this.webServiceEngine;
 	}
 

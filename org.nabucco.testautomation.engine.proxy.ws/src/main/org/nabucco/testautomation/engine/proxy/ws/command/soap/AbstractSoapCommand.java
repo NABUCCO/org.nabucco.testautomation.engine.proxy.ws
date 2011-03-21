@@ -47,4 +47,9 @@ public abstract class AbstractSoapCommand extends AbstractProxyCommand implement
 		logger.error(msg);
 	}
 
+	@Override
+	protected void warning(String msg) {
+		logger.warning(msg);
+	}
+
 }
