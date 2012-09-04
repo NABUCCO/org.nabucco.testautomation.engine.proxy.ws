@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="out/ide/intf" path="src/intf"/>
+	<classpathentry kind="src" output="out/ide/main" path="src/main"/>
+	<classpathentry kind="src" output="out/ide/test" path="src/test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/ct/log4j.jar"/>
+	<classpathentry kind="lib" path="lib/ct/org.nabucco.framework.base.facade.jar"/>
+	<classpathentry kind="lib" path="lib/ct/org.nabucco.testautomation.engine.base.jar"/>
+	<classpathentry kind="lib" path="lib/ct/org.nabucco.testautomation.engine.proxy.jar"/>
+	<classpathentry kind="lib" path="lib/ct/org.nabucco.testautomation.result.facade.jar"/>
+	<classpathentry kind="lib" path="lib/ct/org.nabucco.testautomation.script.facade.jar"/>
+	<classpathentry kind="lib" path="lib/ct/org.nabucco.testautomation.property.facade.jar"/>
+	<classpathentry kind="lib" path="lib/ct/org.nabucco.testautomation.settings.facade.jar"/>
+	<classpathentry kind="lib" path="lib/rt/http.jar"/>
+	<classpathentry kind="lib" path="lib/rt/axis.jar"/>
+	<classpathentry kind="lib" path="lib/rt/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="lib/rt/jetty-util.jar"/>
+	<classpathentry kind="lib" path="lib/ct/org.nabucco.common.extension.jar"/>
+	<classpathentry kind="output" path="out/ide"/>
+</classpath>

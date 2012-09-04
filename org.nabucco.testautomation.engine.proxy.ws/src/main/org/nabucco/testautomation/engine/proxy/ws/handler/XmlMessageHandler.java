@@ -1,19 +1,19 @@
 /*
-* Copyright 2010 PRODYNA AG
-*
-* Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.opensource.org/licenses/eclipse-1.0.php or
-* http://www.nabucco-source.org/nabucco-license.html
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2012 PRODYNA AG
+ *
+ * Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/eclipse-1.0.php or
+ * http://www.nabucco.org/License.html
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.nabucco.testautomation.engine.proxy.ws.handler;
 
 import java.io.File;
@@ -22,18 +22,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.nabucco.testautomation.engine.base.util.PropertyHelper;
+import org.nabucco.testautomation.property.facade.datatype.util.PropertyHelper;
 import org.nabucco.testautomation.engine.proxy.ws.WsConstants;
 import org.nabucco.testautomation.engine.proxy.ws.exception.WebServiceException;
 import org.nabucco.testautomation.engine.proxy.ws.xpath.XPathProcessor;
+import org.nabucco.testautomation.property.facade.datatype.PropertyList;
+import org.nabucco.testautomation.property.facade.datatype.XPathProperty;
+import org.nabucco.testautomation.property.facade.datatype.XmlProperty;
+import org.nabucco.testautomation.property.facade.datatype.base.Property;
+import org.nabucco.testautomation.property.facade.datatype.base.PropertyContainer;
+import org.nabucco.testautomation.property.facade.datatype.base.PropertyType;
 import org.w3c.dom.Document;
-
-import org.nabucco.testautomation.facade.datatype.property.PropertyList;
-import org.nabucco.testautomation.facade.datatype.property.XPathProperty;
-import org.nabucco.testautomation.facade.datatype.property.XmlProperty;
-import org.nabucco.testautomation.facade.datatype.property.base.Property;
-import org.nabucco.testautomation.facade.datatype.property.base.PropertyContainer;
-import org.nabucco.testautomation.facade.datatype.property.base.PropertyType;
 
 /**
  * XmlMessageHandler
@@ -43,45 +42,73 @@ import org.nabucco.testautomation.facade.datatype.property.base.PropertyType;
  */
 public class XmlMessageHandler {
 
-    private final XPathProcessor processor = new XPathProcessor();
+    private final XPathProcessor processor;
 
     private final List<XPathProperty> transformationXPath = new ArrayList<XPathProperty>();
 
     private final List<XPathProperty> extractionXPath = new ArrayList<XPathProperty>();
     
     /**
-     * Constructs a new XmlMessageHandler instance initialized by the given Metadata. The
-     * constructor reads the XML-message, request- and response properties from the metadata. If an
-     * error occurs during this initialization or if the metadata is null, an exception is thrown.
+     * Constructs a new XmlMessageHandler instance initialized by the given XML-Message.
      * 
+     * @param message
+     *            the XML message to handle
+     * @param defaultNSPrefix
+     *            the default namespace prefix
      * @throws WebServiceException
      *             thrown, if an error occurs during this initialization
      */
-    public XmlMessageHandler(String message) throws WebServiceException {
+    public XmlMessageHandler(String message, String defaultNSPrefix) throws WebServiceException {
     
     	if (message == null) {
     		throw new WebServiceException("Message must not be null");
     	}
+    	
+    	this.processor = new XPathProcessor(defaultNSPrefix);
     	
     	// Set the XML-Document into the XPathProcessor
         this.processor.setDocument(message);
     }
     
-    public XmlMessageHandler(File messageFile) throws WebServiceException {
+    /**
+     * Constructs a new XmlMessageHandler instance initialized by the given XML-Message.
+     * 
+     * @param messageFile
+     *            the XML message to handle
+     * @param defaultNSPrefix
+     *            the default namespace prefix
+     * @throws WebServiceException
+     *             thrown, if an error occurs during this initialization
+     */
+    public XmlMessageHandler(File messageFile, String defaultNSPrefix) throws WebServiceException {
     
     	if (messageFile == null || !messageFile.exists()) {
     		throw new WebServiceException("MessageFile must not be null");
     	}
     	
+    	this.processor = new XPathProcessor(defaultNSPrefix);
+    	
     	// Set the XML-Document into the XPathProcessor
         this.processor.setDocument(messageFile);
     }
     
-    public XmlMessageHandler(Document message) throws WebServiceException {
+    /**
+     * Constructs a new XmlMessageHandler instance initialized by the given XML-Message.
+     * 
+     * @param message
+     *            the XML message to handle
+     * @param defaultNSPrefix
+     *            the default namespace prefix
+     * @throws WebServiceException
+     *             thrown, if an error occurs during this initialization
+     */
+    public XmlMessageHandler(Document message, String defaultNSPrefix) throws WebServiceException {
     
     	if (message == null) {
     		throw new WebServiceException("Message must not be null");
     	}
+    	
+    	this.processor = new XPathProcessor(defaultNSPrefix);
     	
     	// Set the XML-Document into the XPathProcessor
         this.processor.setDocument(message);

@@ -14,43 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nabucco.testautomation.engine.proxy.ws.server.http;
+package org.nabucco.testautomation.engine.proxy.ws.client.soap;
+
 
 /**
- * HttpException
+ * SoapVersion
  * 
  * @author Steffen Schmidt, PRODYNA AG
  */
-public class HttpException extends Exception {
+public enum SoapVersion {
 
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 
-	 */
-	public HttpException() {
-	}
-
-	/**
-	 * @param message
-	 */
-	public HttpException(String message) {
-		super(message);
-	}
-
-	/**
-	 * @param cause
-	 */
-	public HttpException(Throwable cause) {
-		super(cause);
-	}
-
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public HttpException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
+   V_1_1,
+   
+   V_1_2;
+    
 }

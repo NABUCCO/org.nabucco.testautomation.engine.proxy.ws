@@ -1,19 +1,19 @@
 /*
-* Copyright 2010 PRODYNA AG
-*
-* Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.opensource.org/licenses/eclipse-1.0.php or
-* http://www.nabucco-source.org/nabucco-license.html
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2012 PRODYNA AG
+ *
+ * Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/eclipse-1.0.php or
+ * http://www.nabucco.org/License.html
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.nabucco.testautomation.engine.proxy.ws.command.soap.server;
 
 import java.io.IOException;
@@ -27,19 +27,18 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.nabucco.testautomation.engine.base.util.PropertyHelper;
+import org.nabucco.testautomation.property.facade.datatype.util.PropertyHelper;
 import org.nabucco.testautomation.engine.proxy.ws.command.soap.AbstractSoapCommand;
 import org.nabucco.testautomation.engine.proxy.ws.exception.WebServiceException;
-import org.xml.sax.SAXException;
-
-import org.nabucco.testautomation.facade.datatype.property.BooleanProperty;
-import org.nabucco.testautomation.facade.datatype.property.FileProperty;
-import org.nabucco.testautomation.facade.datatype.property.PropertyList;
-import org.nabucco.testautomation.facade.datatype.property.StringProperty;
-import org.nabucco.testautomation.facade.datatype.property.XmlProperty;
-import org.nabucco.testautomation.facade.datatype.property.base.Property;
-import org.nabucco.testautomation.facade.datatype.property.base.PropertyType;
+import org.nabucco.testautomation.property.facade.datatype.BooleanProperty;
+import org.nabucco.testautomation.property.facade.datatype.FileProperty;
+import org.nabucco.testautomation.property.facade.datatype.PropertyList;
+import org.nabucco.testautomation.property.facade.datatype.TextProperty;
+import org.nabucco.testautomation.property.facade.datatype.XmlProperty;
+import org.nabucco.testautomation.property.facade.datatype.base.Property;
+import org.nabucco.testautomation.property.facade.datatype.base.PropertyType;
 import org.nabucco.testautomation.script.facade.datatype.metadata.Metadata;
+import org.xml.sax.SAXException;
 
 /**
  * ValidateRequestCommand
@@ -196,19 +195,19 @@ public class ValidateMessageCommand extends AbstractSoapCommand {
 
 		// First, check PropertyList from Action
 		Property schemaLocationProperty = PropertyHelper.getFromList(
-				properties, PropertyType.STRING, XSD);
+				properties, PropertyType.TEXT, XSD);
 
 		if (schemaLocationProperty != null) {
-			return ((StringProperty) schemaLocationProperty).getValue()
+			return ((TextProperty) schemaLocationProperty).getValue()
 					.getValue();
 		}
 
 		// Second, check PropertyList from Metadata
 		schemaLocationProperty = PropertyHelper.getFromList(
-				metadata.getPropertyList(), PropertyType.STRING, XSD);
+				metadata.getPropertyList(), PropertyType.TEXT, XSD);
 
 		if (schemaLocationProperty != null) {
-			return ((StringProperty) schemaLocationProperty).getValue()
+			return ((TextProperty) schemaLocationProperty).getValue()
 					.getValue();
 		}
 

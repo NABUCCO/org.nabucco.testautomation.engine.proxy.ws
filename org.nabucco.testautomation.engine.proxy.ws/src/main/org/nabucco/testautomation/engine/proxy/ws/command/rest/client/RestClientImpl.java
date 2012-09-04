@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nabucco.testautomation.engine.proxy.ws.command.soap.client;
+package org.nabucco.testautomation.engine.proxy.ws.command.rest.client;
 
 import java.util.List;
 
@@ -26,41 +26,37 @@ import org.nabucco.testautomation.engine.proxy.SubEngineActionType;
 import org.nabucco.testautomation.engine.proxy.ws.WebServiceActionType;
 import org.nabucco.testautomation.engine.proxy.ws.client.WebServiceClient;
 import org.nabucco.testautomation.engine.proxy.ws.client.WebServiceClientFactory;
-import org.nabucco.testautomation.engine.proxy.ws.client.soap.SoapVersion;
 import org.nabucco.testautomation.engine.proxy.ws.exception.WebServiceException;
-import org.nabucco.testautomation.engine.proxy.ws.soap.SoapClient;
-import org.nabucco.testautomation.engine.proxy.ws.soap.SoapCommand;
+import org.nabucco.testautomation.engine.proxy.ws.rest.RestClient;
+import org.nabucco.testautomation.engine.proxy.ws.rest.RestCommand;
 import org.nabucco.testautomation.property.facade.datatype.PropertyList;
 import org.nabucco.testautomation.result.facade.datatype.ActionResponse;
 import org.nabucco.testautomation.result.facade.datatype.status.ActionStatusType;
 import org.nabucco.testautomation.script.facade.datatype.metadata.Metadata;
 
 /**
- * SoapClientImpl
+ * RestClientImpl
  * 
  * @author Steffen Schmidt, PRODYNA AG
  */
-public class SoapClientImpl implements SoapClient {
+public class RestClientImpl implements RestClient {
 
     private static final long serialVersionUID = 1L;
 
-    private static final NabuccoLogger logger = NabuccoLoggingFactory.getInstance().getLogger(SoapClientImpl.class);
+    private static final NabuccoLogger logger = NabuccoLoggingFactory.getInstance().getLogger(RestClientImpl.class);
 
     private WebServiceClient client;
-
+    
     private String defaultNSPrefix;
 
     /**
-     * Constructs a new instance calling a SOAP-WebService.
+     * Constructs a new instance calling a REST-WebService.
      * 
-     * @param version
-     *            the SOAP-Version (1.1 or 1.2)
-     * @param defaultNSPrefix
-     *            the default namespace prefix
      * @throws WebServiceException
+     *             thrown, if the instance cannot be created
      */
-    public SoapClientImpl(SoapVersion version, String defaultNSPrefix) throws WebServiceException {
-        this.client = WebServiceClientFactory.getInstance().getSoapWebServiceClient(version);
+    public RestClientImpl(String defaultNSPrefix) throws WebServiceException {
+        this.client = WebServiceClientFactory.getInstance().getRestWebServiceClient();
         this.defaultNSPrefix = defaultNSPrefix;
     }
 
@@ -72,7 +68,7 @@ public class SoapClientImpl implements SoapClient {
             SubEngineActionType actionType) throws WebServiceException {
 
         ActionResponse result = TestResultHelper.createActionResponse();
-        SoapCommand command = null;
+        RestCommand command = null;
 
         try {
             result.setMessage("Executing WebService action='" + actionType + "'");
@@ -84,16 +80,25 @@ public class SoapClientImpl implements SoapClient {
             Metadata metadata = getLeaf(metadataList);
 
             switch ((WebServiceActionType) actionType) {
-            case CALL:
-                command = new SoapCallCommand(this.client, this.defaultNSPrefix);
+            case GET:
+                command = new GetCommand(this.client, this.defaultNSPrefix);
+                break;
+            case POST:
+                command = new PostCommand(this.client, this.defaultNSPrefix);
+                break;
+            case PUT:
+                command = new PutCommand(this.client, this.defaultNSPrefix);
+                break;
+            case DELETE:
+                command = new DeleteCommand(this.client, this.defaultNSPrefix);
                 break;
             default:
-                result.setErrorMessage("Unsupported WebServiceActionType for SoapCall: " + actionType);
+                result.setErrorMessage("Unsupported WebServiceActionType for RestCall: " + actionType);
                 result.setActionStatus(ActionStatusType.FAILED);
                 return result;
             }
 
-            // Execute SoapCommand
+            // Execute RestCommand
             PropertyList returnProperties = command.execute(metadata, propertyList);
 
             result.setReturnProperties(returnProperties);
@@ -101,12 +106,12 @@ public class SoapClientImpl implements SoapClient {
             return result;
         } catch (WebServiceException ex) {
             logger.error(ex);
-            result.setErrorMessage("Could not execute SoapCall. Cause: " + ex.getMessage());
+            result.setErrorMessage("Could not execute RestCall. Cause: " + ex.getMessage());
             result.setActionStatus(ActionStatusType.FAILED);
             return result;
         } catch (Exception ex) {
             logger.error(ex);
-            result.setErrorMessage("Could not execute SoapCall. Cause: " + ex.toString());
+            result.setErrorMessage("Could not execute RestCall. Cause: " + ex.toString());
             result.setActionStatus(ActionStatusType.FAILED);
             return result;
         } finally {
